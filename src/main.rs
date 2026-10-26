@@ -25,8 +25,6 @@ use gtk_theme::{
 const APP_ID: &str = "org.neuronix.GtkThemeEditor";
 const EDITOR_WIDTH: i32 = 960;
 const EDITOR_HEIGHT: i32 = 720;
-const SUITE_WEBSITE: &str = "https://github.com/NeuronixOS/GTK-Apps";
-const SUITE_WEBSITE_LABEL: &str = "github.com/NeuronixOS/GTK-Apps";
 const SUITE_AUTHOR: &str = "Created by Kevin Hinds";
 
 /// ANSI slot roles for the 16-color palette (matches terminal color numbering).
@@ -134,11 +132,9 @@ fn show_about(app: &gtk::Application) {
         .program_name("GTK Theme Editor")
         .version(env!("CARGO_PKG_VERSION"))
         .comments(
-            "Edit suite color profiles, window chrome (thickness, rounding, − □ ×), and 16-color palette for Neuronix GTK-Apps.",
+            "Edit suite color profiles, window chrome (thickness, rounding, − □ ×), and 16-color palette for the hyprCore Linux GTK apps.",
         )
         .authors([SUITE_AUTHOR])
-        .website(SUITE_WEBSITE)
-        .website_label(SUITE_WEBSITE_LABEL)
         .license_type(gtk::License::Gpl30)
         .build();
     if let Some(win) = app.active_window() {

@@ -2,13 +2,13 @@
 
 A GTK4 front-end for the shared [`gtk-theme`](../gtk-theme) suite color profiles.
 
-Load the stock **Neuronix** profile (or one of your own custom profiles), tweak
+Load the stock **hyprCore Linux** profile (or one of your own custom profiles), tweak
 the **foreground**, **background**, **window border**, and the full **16-color
 ANSI palette**, and watch the whole window recolor as you edit. Save your
 result under a custom name and it becomes available in every GTK-Apps suite
 app's *Profile* menu.
 
-Created by Kevin Hinds — [github.com/NeuronixOS/GTK-Apps](https://github.com/NeuronixOS/GTK-Apps)
+Created by Kevin Hinds
 
 ## Features
 
