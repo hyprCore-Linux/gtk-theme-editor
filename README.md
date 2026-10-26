@@ -50,3 +50,7 @@ Or via the suite helper:
 ```bash
 ~/DevTools/LinuxOS/build-launch.sh gtk-theme-editor
 ```
+
+## License
+
+GNU General Public License v3.0. See [LICENSE](LICENSE).
