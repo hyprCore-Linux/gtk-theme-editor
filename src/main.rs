@@ -22,7 +22,7 @@ use gtk_theme::{
     ProfileData, WindowChrome,
 };
 
-const APP_ID: &str = "org.neuronix.GtkThemeEditor";
+const APP_ID: &str = "org.hyprcore.GtkThemeEditor";
 const EDITOR_WIDTH: i32 = 960;
 const EDITOR_HEIGHT: i32 = 720;
 const SUITE_AUTHOR: &str = "Created by Kevin Hinds";
@@ -436,7 +436,7 @@ fn snap_editor_window_size() {
         attempts.set(n + 1);
         if let Some((tx, ty, tw, th)) = screen_open_rect() {
             if let Some((floating, x, y, w, h)) = theme_editor_geom() {
-                let target = "class:^(org.neuronix.GtkThemeEditor)$";
+                let target = "class:^(org.hyprcore.GtkThemeEditor)$";
                 if !floating {
                     hyprctl_dispatch("setfloating", target);
                 }
@@ -521,7 +521,7 @@ fn hyprctl_stdout(args: &[&str]) -> Option<String> {
 
 fn theme_editor_geom() -> Option<(bool, i32, i32, i32, i32)> {
     let text = hyprctl_stdout(&["clients", "-j"])?;
-    let idx = text.find("\"class\": \"org.neuronix.GtkThemeEditor\"")?;
+    let idx = text.find("\"class\": \"org.hyprcore.GtkThemeEditor\"")?;
     let slice = &text[idx.saturating_sub(1600)..idx];
     let floating_at = slice.rfind("\"floating\":")?;
     let floating = slice[floating_at..].starts_with("\"floating\": true");
