@@ -118,6 +118,17 @@ fn install_glyph_css() {
     );
 }
 
+fn build_menu_model() -> (gio::Menu, gtk_theme::IconMenu) {
+    let mut icons = gtk_theme::IconMenu::new();
+    let menu = gio::Menu::new();
+
+    let help = gio::Menu::new();
+    icons.append_action(&help, "About", "app.about");
+    icons.append_submenu(&menu, "_Help", &help, "help-about-symbolic");
+
+    (menu, icons)
+}
+
 fn install_about_action(app: &gtk::Application) {
     let about = gio::SimpleAction::new("about", None);
     {
@@ -176,7 +187,16 @@ fn build_ui(app: &gtk::Application) {
     // this window jump and snap size when you click-drag it.
     let header = gtk::HeaderBar::new();
     gtk_theme::prepare_headerbar(&header);
-    header.set_show_title_buttons(false);
+
+    // Hamburger → horizontal menubar (Help → About).
+    let (menu_model, menu_icons) = build_menu_model();
+    let reveal_menubar = gtk_theme::install_reveal_menubar(
+        &header,
+        &window,
+        "GTK Theme Editor",
+        &menu_model,
+        Some(&menu_icons),
+    );
 
     let base_label = gtk::Label::new(Some("Base:"));
     base_label.add_css_class("dim-label");
@@ -184,6 +204,7 @@ fn build_ui(app: &gtk::Application) {
     profile_dropdown.set_tooltip_text(Some("Load a profile to edit"));
     header.pack_start(&base_label);
     header.pack_start(&profile_dropdown);
+    reveal_menubar.pack_controls(&header);
 
     let save_btn = gtk::Button::with_label("Save");
     save_btn.add_css_class("suggested-action");
@@ -196,14 +217,6 @@ fn build_ui(app: &gtk::Application) {
     header.pack_end(&save_btn);
     header.pack_end(&apply_btn);
     header.pack_end(&delete_btn);
-
-    let about_btn = gtk::MenuButton::new();
-    about_btn.set_icon_name("open-menu-symbolic");
-    about_btn.set_tooltip_text(Some("Menu"));
-    let about_menu = gio::Menu::new();
-    about_menu.append(Some("About"), Some("app.about"));
-    about_btn.set_menu_model(Some(&about_menu));
-    header.pack_end(&about_btn);
 
     // ---- editor column -------------------------------------------------
     let editor = gtk::Box::new(gtk::Orientation::Vertical, 12);
@@ -242,7 +255,7 @@ fn build_ui(app: &gtk::Application) {
     let gradient_dropdown =
         gtk::DropDown::from_strings(&["Left → Right", "Right → Left"]);
     gradient_dropdown.set_tooltip_text(Some(
-        "Direction for window borders and the hyprbars title bar",
+        "Direction for window border gradients",
     ));
     editor.append(&field_row("Gradient", &gradient_dropdown));
 
@@ -632,7 +645,7 @@ fn build_chrome_fields() -> (
     heading.add_css_class("heading");
     section.append(&heading);
     let hint = wrap_hint(
-        "Border size and rounding apply to every Hyprland window. − □ × are hyprbars font glyphs.",
+        "Border size and rounding apply to every Hyprland window.",
     );
     section.append(&hint);
 
